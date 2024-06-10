@@ -1,0 +1,7 @@
+/tmp/
+/node_modules/
+/db/
+/assets/styles.css
+*.db
+*_templ.go
+.env

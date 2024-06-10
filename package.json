@@ -1,0 +1,8 @@
+{
+  "devDependencies": {
+    "daisyui": "^4.12.2"
+  },
+  "dependencies": {
+    "caniuse-lite": "^1.0.30001629"
+  }
+}
