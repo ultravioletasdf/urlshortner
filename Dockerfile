@@ -16,7 +16,7 @@ RUN npm i
 COPY . .
 
 ENV CGO_ENABLED=1
-RUN tailwindcss --minify -i ./frontend/input.css -o ./assets/output.css && sqlc generate && templ generate
+RUN tailwindcss --minify -i ./frontend/input.css -o ./assets/styles.css && sqlc generate && templ generate
 RUN go build -o bin .
 
 ENTRYPOINT "/app/bin"
