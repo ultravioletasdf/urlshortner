@@ -55,7 +55,7 @@ func GzipF(next http.HandlerFunc) http.HandlerFunc {
 		}
 
 		w.Header().Set("Content-Encoding", "gzip")
-
+		w.Header().Set("Content-Type", "text/html")
 		gz := gzPool.Get().(*gzip.Writer)
 		defer gzPool.Put(gz)
 
