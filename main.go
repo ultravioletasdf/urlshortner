@@ -42,10 +42,10 @@ func main() {
 
 	router := http.NewServeMux()
 
-	router.HandleFunc("GET /", home)
+	router.HandleFunc("GET /", GzipF(home))
 	router.HandleFunc("GET /{code}", shortLink)
 	router.HandleFunc("POST /new_link", newLink)
-	router.Handle("GET /assets/", http.FileServer(http.FS(assets)))
+	router.Handle("GET /assets/", Gzip(http.FileServer(http.FS(assets))))
 
 	server := http.Server{
 		Addr:    config.ListenAddress,
