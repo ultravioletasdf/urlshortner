@@ -11,7 +11,8 @@ type Config struct {
 	TursoUrl          string `env:"TURSO_URL,required"`
 	TursoToken        string `env:"TURSO_TOKEN,required"`
 
-	ListenAddress string `env:"LISTEN_ADDRESS" envDefault:"127.0.0.1:3005"`
+	ListenAddress string `env:"LISTEN_ADDRESS" envDefault:":3005"`
+	FQDN          string `env:"FQDN,required"`
 }
 
 func GetConfig() *Config {

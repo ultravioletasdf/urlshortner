@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"crypto/rand"
+	"database/sql"
 	"embed"
 	"fmt"
 	"log"
@@ -42,6 +43,7 @@ func main() {
 	router := http.NewServeMux()
 
 	router.HandleFunc("GET /", home)
+	router.HandleFunc("GET /{code}", shortLink)
 	router.HandleFunc("POST /new_link", newLink)
 	router.Handle("GET /assets/", http.FileServer(http.FS(assets)))
 
@@ -49,7 +51,7 @@ func main() {
 		Addr:    config.ListenAddress,
 		Handler: router,
 	}
-	fmt.Println("Starting server at", "http://"+config.ListenAddress)
+	fmt.Println("Starting server at", "http://"+config.FQDN)
 	server.ListenAndServe()
 }
 func home(w http.ResponseWriter, r *http.Request) {
@@ -59,6 +61,19 @@ func home(w http.ResponseWriter, r *http.Request) {
 	}
 
 	frontend.HomePage().Render(ctx, w)
+}
+func shortLink(w http.ResponseWriter, r *http.Request) {
+	code := r.PathValue("code")
+	if code == "" {
+		http.NotFound(w, r)
+		return
+	}
+	long, err := executor.GetFromCode(ctx, code)
+	if err == sql.ErrNoRows {
+		http.NotFound(w, r)
+		return
+	}
+	http.Redirect(w, r, long, http.StatusPermanentRedirect)
 }
 func newLink(w http.ResponseWriter, r *http.Request) {
 	link := r.FormValue("link")
@@ -109,5 +124,5 @@ func createCode(length int) string {
 	return code
 }
 func generateLink(config *Config, code string) string {
-	return "http://" + config.ListenAddress + "/" + code
+	return "http://" + config.FQDN + "/" + code
 }
