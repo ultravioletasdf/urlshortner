@@ -43,6 +43,12 @@ func main() {
 	router := http.NewServeMux()
 
 	router.HandleFunc("GET /", GzipF(home))
+	router.HandleFunc("GET /custom_code", func(w http.ResponseWriter, r *http.Request) {
+		frontend.CustomCode().Render(ctx, w)
+	})
+	router.HandleFunc("DELETE /custom_code", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+	})
 	router.HandleFunc("GET /{code}", shortLink)
 	router.HandleFunc("POST /new_link", newLink)
 	router.Handle("GET /assets/", Gzip(http.FileServer(http.FS(assets))))
@@ -77,6 +83,8 @@ func shortLink(w http.ResponseWriter, r *http.Request) {
 }
 func newLink(w http.ResponseWriter, r *http.Request) {
 	link := r.FormValue("link")
+	customCode := strings.TrimSpace(r.FormValue("code"))
+
 	formattedLink := link
 	if !strings.HasPrefix(link, "https://") && !strings.HasPrefix(formattedLink, "http://") {
 		formattedLink = "https://" + link
@@ -86,6 +94,29 @@ func newLink(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, "Invalid link, failed to format page")
 		return
 	}
+
+	if customCode != "" {
+		if len(customCode) > 16 || len(customCode) < 3 {
+			fmt.Fprint(w, "Custom code must be between 3 and 16")
+			return
+		}
+		existingLink, err := executor.GetFromCode(ctx, customCode)
+		if err != nil && err != sql.ErrNoRows {
+			fmt.Println(err.Error())
+			fmt.Fprint(w, "Something went wrong")
+			return
+		}
+		if existingLink == formattedLink {
+			newLink := generateLink(config, customCode)
+			frontend.Link(newLink).Render(ctx, w)
+			return
+		}
+		if existingLink != "" {
+			fmt.Fprint(w, "Code is being used")
+			return
+		}
+	}
+
 	code, _ := executor.GetFromUrl(ctx, formattedLink)
 	if code != "" {
 		newLink := generateLink(config, code)
@@ -101,9 +132,13 @@ func newLink(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, "Invalid link, incorrect status ", res.StatusCode)
 		return
 	}
-	code = createCode(5)
-	for code, _ := executor.GetFromCode(ctx, code); code != ""; {
+	if customCode != "" {
+		code = customCode
+	} else {
 		code = createCode(5)
+		for code, _ := executor.GetFromCode(ctx, code); code != ""; {
+			code = createCode(5)
+		}
 	}
 	executor.CreateLink(ctx, db.CreateLinkParams{Code: code, LongUrl: formattedLink})
 	newLink := generateLink(config, code)
