@@ -11,7 +11,7 @@ require (
 )
 
 require (
-	github.com/a-h/templ v0.2.707 // indirect
+	github.com/a-h/templ v0.2.747 // indirect
 	github.com/antlr4-go/antlr/v4 v4.13.0 // indirect
 	github.com/caarlos0/env/v11 v11.0.1 // indirect
 	github.com/joho/godotenv v1.5.1
