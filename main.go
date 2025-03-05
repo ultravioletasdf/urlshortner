@@ -65,6 +65,7 @@ func home(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 		return
 	}
+	fmt.Printf("%s accessed /: X-Forwarded-For: %s; CF-Connecting-IP: %s\n", r.RemoteAddr, r.Header.Get("X-Forwarded-For"), r.Header.Get("CF-Connecting-IP"))
 
 	frontend.HomePage().Render(ctx, w)
 }
