@@ -7,10 +7,10 @@ WORKDIR /app
 RUN npm i @tailwindcss/cli -g
 RUN go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest && go install github.com/a-h/templ/cmd/templ@latest
 
-COPY go.mod go.sum .
+COPY go.mod go.sum ./
 RUN go mod download
 
-COPY package.json package-lock.json .
+COPY package.json package-lock.json ./
 RUN npm i
 
 COPY . .
@@ -21,4 +21,4 @@ RUN go build -o bin .
 
 ENTRYPOINT "/app/bin"
 
-EXPOSE 3000
+EXPOSE 3005

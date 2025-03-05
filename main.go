@@ -58,7 +58,7 @@ func main() {
 		Handler: router,
 	}
 	fmt.Println("Starting server at", "http://"+config.FQDN)
-	server.ListenAndServe()
+	log.Fatal(server.ListenAndServe())
 }
 func home(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
