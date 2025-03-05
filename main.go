@@ -124,15 +124,16 @@ func newLink(w http.ResponseWriter, r *http.Request) {
 		frontend.Link(newLink).Render(ctx, w)
 		return
 	}
-	res, err := http.Get(formattedLink)
-	if err != nil {
-		fmt.Fprint(w, "Invalid link, failed to get page")
-		return
-	}
-	if res.StatusCode > 299 || res.StatusCode < 200 {
-		fmt.Fprint(w, "Invalid link, incorrect status ", res.StatusCode)
-		return
-	}
+	// res, err := http.Get(formattedLink)
+	// if err != nil {
+	// 	fmt.Println(err.Error())
+	// 	fmt.Fprint(w, "Invalid link, failed to get page")
+	// 	return
+	// }
+	// if res.StatusCode > 299 || res.StatusCode < 200 {
+	// 	fmt.Fprint(w, "Invalid link, incorrect status ", res.StatusCode)
+	// 	return
+	// }
 	if customCode != "" {
 		code = customCode
 	} else {
