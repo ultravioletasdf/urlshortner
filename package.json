@@ -1,6 +1,7 @@
 {
   "devDependencies": {
-    "daisyui": "^4.12.2"
+    "daisyui": "^5.0.0",
+    "tailwindcss": "^4.0.9"
   },
   "dependencies": {
     "caniuse-lite": "^1.0.30001629"

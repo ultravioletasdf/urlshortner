@@ -2,7 +2,7 @@ root = "."
 
 [build]
   bin = "./tmp/main"
-  cmd = "templ generate && sqlc generate && tailwindcss -m -i ./frontend/input.css -o ./assets/styles.css && go build -o ./tmp/main ."
+  cmd = "templ generate && sqlc generate && bunx @tailwindcss/cli -m -i ./frontend/input.css -o ./assets/styles.css && go build -o ./tmp/main ."
   exclude_dir = ["db", "tmp", "node_modules", "assets"]
   exclude_regex = ["_test.go", "_templ.go"]
   include_ext = ["go", "templ", "css", "sql"]

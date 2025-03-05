@@ -79,7 +79,8 @@ func shortLink(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 		return
 	}
-	http.Redirect(w, r, long, http.StatusPermanentRedirect)
+	fmt.Printf("%s accessed %s: X-Forwarded-For: %s\n", r.RemoteAddr, code, r.Header.Get("X-Forwarded-For"))
+	http.Redirect(w, r, long, http.StatusTemporaryRedirect)
 }
 func newLink(w http.ResponseWriter, r *http.Request) {
 	link := r.FormValue("link")

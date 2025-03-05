@@ -1,10 +1,10 @@
-FROM golang:1.22.2
+FROM golang:1.24
 
 RUN apt update && apt install -y nodejs npm
 
 WORKDIR /app
 
-RUN npm i tailwindcss -g 
+RUN npm i @tailwindcss/cli -g
 RUN go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest && go install github.com/a-h/templ/cmd/templ@latest
 
 COPY go.mod go.sum .
