@@ -44,7 +44,7 @@ func main() {
 
 	router.HandleFunc("GET /", GzipF(home))
 	router.HandleFunc("GET /custom_code", func(w http.ResponseWriter, r *http.Request) {
-		frontend.CustomCode().Render(ctx, w)
+		frontend.CustomCodeInput().Render(ctx, w)
 	})
 	router.HandleFunc("DELETE /custom_code", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
@@ -125,16 +125,6 @@ func newLink(w http.ResponseWriter, r *http.Request) {
 		frontend.Link(newLink).Render(ctx, w)
 		return
 	}
-	// res, err := http.Get(formattedLink)
-	// if err != nil {
-	// 	fmt.Println(err.Error())
-	// 	fmt.Fprint(w, "Invalid link, failed to get page")
-	// 	return
-	// }
-	// if res.StatusCode > 299 || res.StatusCode < 200 {
-	// 	fmt.Fprint(w, "Invalid link, incorrect status ", res.StatusCode)
-	// 	return
-	// }
 	if customCode != "" {
 		code = customCode
 	} else {
