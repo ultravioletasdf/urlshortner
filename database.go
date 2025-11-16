@@ -36,6 +36,9 @@ func ConnectToDatabase(config *Config) (*sql.DB, string) {
 	if config.TursoUrl == "" {
 		return local(), ""
 	}
+	if config.TursoToken == "" {
+		log.Fatalln("TURSO_URL set but TURSO_TOKEN is not")
+	}
 	turso, dir, err := turso(config)
 	if err != nil {
 		log.Fatalln("Failed to connect to turso database", err.Error())
