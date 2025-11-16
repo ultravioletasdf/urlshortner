@@ -8,7 +8,7 @@ import (
 
 type Config struct {
 	TursoDatabaseName string `env:"TURSO_DATABASE_NAME" envDefault:"./turso.db"`
-	TursoUrl          string `env:"TURSO_URL,required"`
+	TursoUrl          string `env:"TURSO_URL"`
 	TursoToken        string `env:"TURSO_TOKEN,required"`
 
 	ListenAddress string `env:"LISTEN_ADDRESS" envDefault:":3005"`

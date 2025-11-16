@@ -1,8 +1,6 @@
 module urlshortener
 
-go 1.24
-
-toolchain go1.24.0
+go 1.24.0
 
 require (
 	github.com/PuerkitoBio/purell v1.2.1
@@ -10,12 +8,12 @@ require (
 )
 
 require (
-	golang.org/x/net v0.33.0 // indirect
-	golang.org/x/text v0.21.0 // indirect
+	golang.org/x/net v0.47.0 // indirect
+	golang.org/x/text v0.31.0 // indirect
 )
 
 require (
-	github.com/a-h/templ v0.3.833
+	github.com/a-h/templ v0.3.960
 	github.com/antlr4-go/antlr/v4 v4.13.0 // indirect
 	github.com/caarlos0/env/v11 v11.0.1
 	github.com/joho/godotenv v1.5.1
